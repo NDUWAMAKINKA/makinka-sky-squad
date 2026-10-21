@@ -6,6 +6,8 @@ Tap the flying money bags. The crew fires money at them, and you collect coins. 
 
 No installs, no internet, and no accounts are needed.
 
+![Makinka Sky Squad start screen](screenshot.png)
+
 ## Play
 
 Double-click **`index.html`**.
@@ -36,6 +38,7 @@ After each change: **save** (`Ctrl+S`), then **refresh** the browser (`Ctrl+R` o
 | `index.html` | The finished game. Double-click to play. |
 | `my-game.html` | A working copy for Code Club edits. |
 | `learn.html` | The illustrated, printable Code Club manual, including the certificate and grown-up notes. |
+| `screenshot.png` | Preview image for this README. |
 | `README.md` | This quick-start guide. |
 
 ## For the grown-up co-pilot
