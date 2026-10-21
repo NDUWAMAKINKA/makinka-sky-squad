@@ -1,0 +1,2004 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#10243e">
+  <meta name="description" content="A four-mission, kid-friendly Code Club manual for remixing the Makinka Sky Squad game in HTML, CSS, and JavaScript.">
+  <title>Makinka Sky Squad — Code Club Flight Manual</title>
+  <style>
+    :root {
+      --ink: #10243e;
+      --ink-soft: #53687d;
+      --cream: #fffdf6;
+      --paper: #f4fbff;
+      --gold: #ffb703;
+      --gold-deep: #d18a00;
+      --coral: #b33a23;
+      --blue: #1f6285;
+      --sky: #31d2f2;
+      --green: #2a9d8f;
+      --line: #d8ebf7;
+      --shadow: rgba(16, 36, 62, 0.12);
+    }
+
+    *,
+    *::before,
+    *::after {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      background: var(--paper);
+      color: var(--ink);
+      font-family: "Trebuchet MS", "Segoe UI", system-ui, sans-serif;
+      font-size: 17px;
+      line-height: 1.55;
+    }
+
+    a {
+      color: var(--blue);
+      font-weight: 800;
+    }
+
+    a:hover {
+      color: var(--coral);
+    }
+
+    code {
+      padding: 2px 6px;
+      border: 1px solid #cfe6f5;
+      border-radius: 6px;
+      background: #edf8ff;
+      color: #165d83;
+      font-family: "Cascadia Code", Consolas, "Courier New", monospace;
+      font-size: 0.88em;
+      overflow-wrap: anywhere;
+    }
+
+    kbd {
+      display: inline-block;
+      padding: 1px 5px;
+      border: 1px solid #c9dfeb;
+      border-bottom-width: 2px;
+      border-radius: 5px;
+      background: #f8fcff;
+      color: #38576b;
+      font-family: "Cascadia Code", Consolas, "Courier New", monospace;
+      font-size: 0.75em;
+      font-weight: 700;
+      white-space: nowrap;
+    }
+
+    .skip-link {
+      position: absolute;
+      left: 12px;
+      top: -80px;
+      z-index: 100;
+      padding: 10px 14px;
+      border-radius: 10px;
+      background: var(--gold);
+      color: var(--ink);
+    }
+
+    .skip-link:focus {
+      top: 12px;
+    }
+
+    /* ---- Hero ---- */
+
+    .hero {
+      position: relative;
+      overflow: hidden;
+      padding: 28px clamp(18px, 5vw, 60px) 48px;
+      background:
+        radial-gradient(circle at 83% 17%, rgba(255, 227, 121, 0.92) 0 7%, transparent 22%),
+        linear-gradient(155deg, #071a30 0%, #10243e 55%, #175376 100%);
+      color: #ffffff;
+    }
+
+    .hero::before,
+    .hero::after {
+      content: "";
+      position: absolute;
+      border-radius: 50%;
+      pointer-events: none;
+    }
+
+    .hero::before {
+      width: 340px;
+      height: 340px;
+      right: -100px;
+      bottom: -170px;
+      background: rgba(49, 210, 242, 0.13);
+    }
+
+    .hero::after {
+      width: 220px;
+      height: 220px;
+      left: -90px;
+      top: -90px;
+      border: 2px solid rgba(255, 255, 255, 0.08);
+    }
+
+    .hero-inner {
+      position: relative;
+      z-index: 1;
+      width: min(960px, 100%);
+      margin: 0 auto;
+    }
+
+    .top-links {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 34px;
+    }
+
+    .back-link,
+    .print-button {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      min-height: 42px;
+      padding: 9px 14px;
+      border: 2px solid rgba(255, 255, 255, 0.18);
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.08);
+      color: #ffffff;
+      font-family: inherit;
+      font-size: 0.78rem;
+      font-weight: 800;
+      text-decoration: none;
+      cursor: pointer;
+    }
+
+    .back-link:hover,
+    .print-button:hover {
+      background: rgba(255, 255, 255, 0.16);
+      color: #ffffff;
+    }
+
+    .eyebrow {
+      margin: 0;
+      color: var(--gold);
+      font-size: 0.7rem;
+      font-weight: 900;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+    }
+
+    .hero h1 {
+      margin: 8px 0 0;
+      font-size: clamp(2.9rem, 10vw, 5.6rem);
+      font-weight: 900;
+      letter-spacing: -0.05em;
+      line-height: 0.88;
+      text-transform: uppercase;
+    }
+
+    .hero h1 span {
+      color: var(--sky);
+    }
+
+    .lede {
+      max-width: 640px;
+      margin: 18px 0 0;
+      color: #d8f2ff;
+      font-size: clamp(1rem, 2.6vw, 1.2rem);
+      font-weight: 700;
+      line-height: 1.5;
+    }
+
+    .hero-badges {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 22px;
+    }
+
+    .hero-badges span {
+      padding: 6px 12px;
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.08);
+      color: #f3fbff;
+      font-size: 0.73rem;
+      font-weight: 800;
+    }
+
+    .made-for {
+      margin: 22px 0 0;
+      color: #9fc8dc;
+      font-size: 0.78rem;
+      font-weight: 700;
+    }
+
+    /* ---- Navigation ---- */
+
+    .jump-nav {
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      border-bottom: 1px solid var(--line);
+      background: rgba(255, 253, 246, 0.96);
+      box-shadow: 0 4px 16px rgba(16, 36, 62, 0.06);
+      backdrop-filter: blur(8px);
+    }
+
+    .jump-nav-inner {
+      display: flex;
+      gap: 6px;
+      width: min(960px, 100%);
+      margin: 0 auto;
+      padding: 10px clamp(14px, 4vw, 28px);
+      overflow-x: auto;
+      scrollbar-width: thin;
+    }
+
+    .jump-nav a {
+      flex: 0 0 auto;
+      padding: 6px 10px;
+      border-radius: 999px;
+      color: var(--ink-soft);
+      font-size: 0.74rem;
+      text-decoration: none;
+      white-space: nowrap;
+    }
+
+    .jump-nav a:hover {
+      background: #eaf6ff;
+      color: var(--blue);
+    }
+
+    /* ---- Main layout ---- */
+
+    .wrap {
+      width: min(960px, 100%);
+      margin: 0 auto;
+      padding: 38px clamp(16px, 4vw, 30px) 70px;
+    }
+
+    section {
+      scroll-margin-top: 78px;
+    }
+
+    .panel {
+      padding: clamp(20px, 4vw, 32px);
+      border: 2px solid var(--line);
+      border-radius: 24px;
+      background: var(--cream);
+      box-shadow: 0 8px 0 rgba(16, 36, 62, 0.04);
+    }
+
+    .panel + .panel {
+      margin-top: 16px;
+    }
+
+    .intro-grid {
+      display: grid;
+      grid-template-columns: 1.35fr 0.9fr;
+      gap: 16px;
+      align-items: stretch;
+    }
+
+    h2 {
+      margin: 0 0 10px;
+      font-size: clamp(1.45rem, 4vw, 2rem);
+      letter-spacing: -0.025em;
+      line-height: 1.08;
+    }
+
+    h3 {
+      margin: 24px 0 8px;
+      font-size: 1.08rem;
+      letter-spacing: -0.01em;
+    }
+
+    h3:first-child {
+      margin-top: 0;
+    }
+
+    p {
+      margin: 0 0 12px;
+    }
+
+    p:last-child {
+      margin-bottom: 0;
+    }
+
+    .muted {
+      color: var(--ink-soft);
+    }
+
+    .eyebrow-small {
+      margin: 0 0 6px;
+      color: var(--coral);
+      font-size: 0.67rem;
+      font-weight: 900;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+    }
+
+    .growth-mindset {
+      background:
+        radial-gradient(circle at 95% 0%, rgba(255, 220, 118, 0.24), transparent 40%),
+        #fffdf6;
+    }
+
+    .big-rule {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      margin-top: 16px;
+      padding: 13px 14px;
+      border-radius: 14px;
+      background: #fff2c8;
+      color: #6f4700;
+      font-size: 0.9rem;
+      font-weight: 800;
+    }
+
+    .big-rule .rule-icon {
+      font-size: 1.4rem;
+      line-height: 1;
+    }
+
+    /* ---- Grown-up note ---- */
+
+    .grownup {
+      border-color: #eadbb9;
+      background: #fff9e9;
+    }
+
+    .grownup h2,
+    .grownup h3 {
+      color: #6b4a14;
+    }
+
+    .grownup-label {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      margin-bottom: 10px;
+      padding: 4px 9px;
+      border-radius: 999px;
+      background: #ffe4a1;
+      color: #694500;
+      font-size: 0.64rem;
+      font-weight: 900;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+    }
+
+    .grownup p,
+    .grownup li {
+      color: #614e2f;
+    }
+
+    /* ---- Setup ---- */
+
+    .setup {
+      margin-top: 16px;
+    }
+
+    .setup-list {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 10px;
+      margin: 16px 0 0;
+      padding: 0;
+      list-style: none;
+      counter-reset: setup;
+    }
+
+    .setup-list li {
+      position: relative;
+      min-height: 72px;
+      padding: 12px 14px 12px 48px;
+      border: 1px solid #e0eef8;
+      border-radius: 16px;
+      background: #ffffff;
+      font-size: 0.88rem;
+      font-weight: 700;
+    }
+
+    .setup-list li::before {
+      counter-increment: setup;
+      content: counter(setup);
+      position: absolute;
+      left: 12px;
+      top: 12px;
+      display: grid;
+      place-items: center;
+      width: 26px;
+      height: 26px;
+      border-radius: 50%;
+      background: var(--ink);
+      color: #ffffff;
+      font-size: 0.77rem;
+      font-weight: 900;
+    }
+
+    .code-map {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 10px;
+      margin-top: 12px;
+    }
+
+    .map-card {
+      padding: 14px;
+      border: 2px solid var(--line);
+      border-radius: 16px;
+      background: #ffffff;
+    }
+
+    .map-card strong {
+      display: block;
+      margin-bottom: 4px;
+      font-size: 0.95rem;
+    }
+
+    .map-card span {
+      color: var(--ink-soft);
+      font-size: 0.8rem;
+      font-weight: 700;
+      line-height: 1.4;
+    }
+
+    .map-card .file-tag {
+      display: inline-block;
+      margin-bottom: 8px;
+      padding: 3px 7px;
+      border-radius: 6px;
+      background: #eaf7ff;
+      color: #1f6b91;
+      font-size: 0.6rem;
+      font-weight: 900;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    /* ---- Flow ---- */
+
+    .flow {
+      display: grid;
+      grid-template-columns: repeat(5, minmax(0, 1fr));
+      gap: 8px;
+      margin-top: 16px;
+    }
+
+    .flow-step {
+      position: relative;
+      min-height: 94px;
+      padding: 12px 10px;
+      border: 2px solid #e1eef7;
+      border-radius: 14px;
+      background: #ffffff;
+      text-align: center;
+      font-size: 0.74rem;
+      font-weight: 800;
+      line-height: 1.35;
+    }
+
+    .flow-step + .flow-step::before {
+      content: "→";
+      position: absolute;
+      left: -10px;
+      top: 50%;
+      transform: translate(-50%, -50%);
+      color: #9ab7ca;
+      font-size: 1.1rem;
+      z-index: 2;
+    }
+
+    .flow-step b {
+      display: block;
+      margin-bottom: 4px;
+      color: var(--blue);
+      font-size: 0.7rem;
+      letter-spacing: 0.03em;
+    }
+
+    .flow-step.highlight {
+      border-color: #ffd266;
+      background: #fff8da;
+    }
+
+    .code-tour {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 8px;
+      margin-top: 12px;
+    }
+
+    .tour-card {
+      padding: 10px 12px;
+      border: 1px solid #dcecf6;
+      border-radius: 12px;
+      background: #ffffff;
+    }
+
+    .tour-card b {
+      display: block;
+      color: #1c5f82;
+      font-size: 0.8rem;
+      line-height: 1.25;
+    }
+
+    .tour-card span {
+      display: block;
+      margin-top: 3px;
+      color: var(--ink-soft);
+      font-size: 0.68rem;
+      font-weight: 700;
+      line-height: 1.35;
+    }
+
+    /* ---- Missions ---- */
+
+    .mission {
+      margin-top: 28px;
+      overflow: hidden;
+      border: 2px solid var(--line);
+      border-radius: 26px;
+      background: var(--cream);
+      box-shadow: 0 10px 0 rgba(16, 36, 62, 0.04);
+    }
+
+    .mission-head {
+      display: flex;
+      align-items: flex-start;
+      gap: 14px;
+      padding: clamp(18px, 4vw, 26px) clamp(18px, 4vw, 30px);
+      background:
+        linear-gradient(120deg, rgba(234, 247, 255, 0.9), rgba(255, 253, 246, 0.2));
+      border-bottom: 2px solid var(--line);
+    }
+
+    .mission-num {
+      display: grid;
+      place-items: center;
+      flex: 0 0 auto;
+      width: 52px;
+      height: 52px;
+      border-radius: 15px;
+      background: var(--ink);
+      color: var(--gold);
+      font-size: 1.4rem;
+      font-weight: 900;
+      box-shadow: 0 5px 0 rgba(16, 36, 62, 0.14);
+    }
+
+    .mission-title {
+      flex: 1;
+      min-width: 0;
+    }
+
+    .mission-title h2 {
+      margin: 0;
+    }
+
+    .mission-title p {
+      margin: 5px 0 0;
+      color: var(--ink-soft);
+      font-size: 0.88rem;
+      font-weight: 700;
+    }
+
+    .time-pill {
+      flex: 0 0 auto;
+      padding: 6px 10px;
+      border-radius: 999px;
+      background: #fff0b9;
+      color: #6f4700;
+      font-size: 0.66rem;
+      font-weight: 900;
+      letter-spacing: 0.04em;
+      white-space: nowrap;
+    }
+
+    .mission-body {
+      padding: clamp(18px, 4vw, 30px);
+    }
+
+    .skill-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-bottom: 18px;
+    }
+
+    .skill-tags span {
+      padding: 4px 9px;
+      border-radius: 999px;
+      background: #eaf7ff;
+      color: #256b8e;
+      font-size: 0.64rem;
+      font-weight: 900;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+    }
+
+    .steps {
+      margin: 14px 0 0;
+      padding: 0;
+      list-style: none;
+      counter-reset: steps;
+    }
+
+    .steps > li {
+      position: relative;
+      margin-bottom: 14px;
+      padding-left: 40px;
+      font-weight: 700;
+    }
+
+    .steps > li::before {
+      counter-increment: steps;
+      content: counter(steps);
+      position: absolute;
+      left: 0;
+      top: 1px;
+      display: grid;
+      place-items: center;
+      width: 27px;
+      height: 27px;
+      border-radius: 50%;
+      background: #e8f6ff;
+      color: #1c5f82;
+      font-size: 0.75rem;
+      font-weight: 900;
+      border: 2px solid #cbe9fa;
+    }
+
+    .steps ul {
+      margin: 7px 0 0;
+      padding-left: 18px;
+    }
+
+    .steps ul li {
+      margin-bottom: 4px;
+      font-weight: 600;
+    }
+
+    /* ---- Code cards ---- */
+
+    .code-card {
+      margin: 14px 0 18px;
+      overflow: hidden;
+      border-radius: 16px;
+      background: #0b1f36;
+      box-shadow: 0 8px 0 rgba(11, 31, 54, 0.12);
+    }
+
+    .code-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      padding: 8px 14px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+      background: rgba(255, 255, 255, 0.045);
+      color: #8fb9d3;
+      font-size: 0.61rem;
+      font-weight: 900;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+    }
+
+    .code-top .dots {
+      display: flex;
+      gap: 5px;
+    }
+
+    .code-top .dots i {
+      display: block;
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: #ff7b72;
+    }
+
+    .code-top .dots i:nth-child(2) {
+      background: #ffd166;
+    }
+
+    .code-top .dots i:nth-child(3) {
+      background: #6ee7b7;
+    }
+
+    pre {
+      margin: 0;
+      padding: 16px 18px;
+      overflow-x: auto;
+      color: #e6f8ff;
+      font-family: "Cascadia Code", Consolas, "Courier New", monospace;
+      font-size: clamp(0.72rem, 2vw, 0.84rem);
+      line-height: 1.65;
+      white-space: pre-wrap;
+      tab-size: 2;
+    }
+
+    pre code {
+      padding: 0;
+      border: 0;
+      background: transparent;
+      color: inherit;
+      font-size: inherit;
+      overflow-wrap: normal;
+    }
+
+    .comment {
+      color: #7f9eb4;
+    }
+
+    /* ---- Callouts ---- */
+
+    .callout {
+      margin: 16px 0;
+      padding: 14px 16px;
+      border-left: 4px solid var(--blue);
+      border-radius: 0 14px 14px 0;
+      background: #eef9ff;
+      font-size: 0.9rem;
+    }
+
+    .callout strong {
+      color: #175d80;
+    }
+
+    .callout.concept {
+      border-left-color: var(--blue);
+      background: #eef9ff;
+    }
+
+    .callout.test {
+      border-left-color: var(--green);
+      background: #edfbf6;
+    }
+
+    .callout.debug {
+      border-left-color: var(--coral);
+      background: #fff2ee;
+    }
+
+    .callout.co-pilot {
+      border-left-color: #c58a1c;
+      background: #fff8e4;
+    }
+
+    .callout h3 {
+      margin-top: 0;
+      margin-bottom: 6px;
+      font-size: 0.94rem;
+    }
+
+    .callout p,
+    .callout ul {
+      margin-bottom: 0;
+      color: #3b5265;
+      font-size: 0.87rem;
+    }
+
+    .callout ul {
+      padding-left: 20px;
+    }
+
+    .checkline {
+      display: flex;
+      align-items: flex-start;
+      gap: 9px;
+      margin-top: 10px;
+      padding: 10px 12px;
+      border: 1px dashed #b9d9e9;
+      border-radius: 12px;
+      background: #ffffff;
+      color: #355268;
+      font-size: 0.84rem;
+      font-weight: 700;
+    }
+
+    .checkline input {
+      width: 18px;
+      height: 18px;
+      margin-top: 1px;
+      accent-color: var(--green);
+      flex: 0 0 auto;
+    }
+
+    .example-swap {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 10px;
+      margin: 12px 0;
+    }
+
+    .swap-box {
+      padding: 12px;
+      border: 2px solid var(--line);
+      border-radius: 14px;
+      background: #ffffff;
+      font-size: 0.8rem;
+      font-weight: 700;
+    }
+
+    .swap-box strong {
+      display: block;
+      margin-bottom: 5px;
+      font-size: 0.66rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .swap-box.good {
+      border-color: #b7e4d9;
+    }
+
+    .swap-box.bug {
+      border-color: #f4c5b8;
+    }
+
+    .palette {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 7px;
+      margin-top: 10px;
+    }
+
+    .palette span {
+      padding: 5px 9px;
+      border-radius: 999px;
+      background: var(--swatch);
+      color: #10243e;
+      font-size: 0.7rem;
+      font-weight: 900;
+      border: 2px solid rgba(255, 255, 255, 0.6);
+    }
+
+    .palette .dark {
+      color: #ffffff;
+    }
+
+    /* ---- Bug hunt ---- */
+
+    .bug-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 10px;
+      margin-top: 14px;
+    }
+
+    .bug-card {
+      padding: 14px;
+      border: 2px solid #f0d9d2;
+      border-radius: 16px;
+      background: #fffaf7;
+    }
+
+    .bug-card b {
+      display: block;
+      margin-bottom: 5px;
+      color: #9c4c36;
+      font-size: 0.78rem;
+    }
+
+    .bug-card p {
+      margin: 0;
+      color: #5d4a42;
+      font-size: 0.8rem;
+      font-weight: 700;
+    }
+
+    /* ---- Certificate ---- */
+
+    .certificate-wrap {
+      margin-top: 30px;
+      padding: clamp(8px, 2vw, 18px);
+      border-radius: 26px;
+      background: #eaf8ff;
+    }
+
+    .certificate {
+      position: relative;
+      overflow: hidden;
+      padding: clamp(24px, 5vw, 46px);
+      border: 4px solid var(--gold);
+      outline: 2px solid #ffffff;
+      outline-offset: -12px;
+      border-radius: 18px;
+      background:
+        radial-gradient(circle at 8% 0%, rgba(255, 209, 102, 0.3), transparent 25%),
+        radial-gradient(circle at 100% 100%, rgba(49, 210, 242, 0.2), transparent 30%),
+        #fffdf6;
+      text-align: center;
+    }
+
+    .certificate .cert-kicker {
+      margin: 0;
+      color: var(--coral);
+      font-size: 0.67rem;
+      font-weight: 900;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+    }
+
+    .certificate h2 {
+      margin: 5px 0 0;
+      font-size: clamp(1.9rem, 6vw, 3.2rem);
+      text-transform: uppercase;
+      letter-spacing: -0.035em;
+      line-height: 0.95;
+    }
+
+    .certificate .cert-sub {
+      max-width: 500px;
+      margin: 12px auto 0;
+      color: var(--ink-soft);
+      font-size: 0.9rem;
+      font-weight: 700;
+    }
+
+    .name-line {
+      width: min(400px, 100%);
+      margin: 26px auto 0;
+      padding: 4px 10px 8px;
+      border-bottom: 2px solid #b9d5e5;
+      color: var(--ink);
+      font-size: 1.25rem;
+      font-weight: 900;
+      text-align: center;
+    }
+
+    .cert-checks {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 6px 16px;
+      max-width: 650px;
+      margin: 20px auto 0;
+      text-align: left;
+      font-size: 0.78rem;
+      font-weight: 700;
+      color: #3f596c;
+    }
+
+    .cert-checks span::before {
+      content: "✓";
+      margin-right: 6px;
+      color: var(--green);
+      font-weight: 900;
+    }
+
+    .cert-footer {
+      display: flex;
+      justify-content: space-between;
+      gap: 20px;
+      max-width: 620px;
+      margin: 30px auto 0;
+      color: var(--ink-soft);
+      font-size: 0.7rem;
+      font-weight: 800;
+      text-align: center;
+    }
+
+    .cert-footer span {
+      flex: 1;
+      padding-top: 6px;
+      border-top: 1px solid #c5dce8;
+    }
+
+    /* ---- Glossary ---- */
+
+    .glossary {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 8px;
+      margin-top: 14px;
+    }
+
+    .word {
+      padding: 10px 12px;
+      border: 1px solid #dcecf6;
+      border-radius: 12px;
+      background: #ffffff;
+      font-size: 0.8rem;
+    }
+
+    .word b {
+      color: #1c5f82;
+    }
+
+    /* ---- Tables ---- */
+
+    .table-wrap {
+      overflow-x: auto;
+      margin-top: 12px;
+      border: 1px solid #deedf6;
+      border-radius: 14px;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      background: #ffffff;
+      font-size: 0.78rem;
+      line-height: 1.45;
+    }
+
+    th,
+    td {
+      padding: 9px 11px;
+      border-bottom: 1px solid #e7f1f7;
+      text-align: left;
+      vertical-align: top;
+    }
+
+    th {
+      background: #eef9ff;
+      color: #1a5878;
+      font-size: 0.64rem;
+      letter-spacing: 0.07em;
+      text-transform: uppercase;
+    }
+
+    tr:last-child td {
+      border-bottom: 0;
+    }
+
+    /* ---- Footer ---- */
+
+    .manual-footer {
+      padding: 30px 16px 46px;
+      color: #59778a;
+      text-align: center;
+      font-size: 0.76rem;
+      font-weight: 700;
+    }
+
+    .manual-footer a {
+      color: #1f6b91;
+    }
+
+    .print-only {
+      display: none;
+    }
+
+    /* ---- Responsive ---- */
+
+    @media (max-width: 760px) {
+      body {
+        font-size: 16px;
+      }
+
+      .intro-grid,
+      .setup-list,
+      .glossary {
+        grid-template-columns: 1fr;
+      }
+
+      .code-map {
+        grid-template-columns: 1fr;
+      }
+
+      .flow {
+        grid-template-columns: 1fr;
+        gap: 7px;
+      }
+
+      .flow-step {
+        min-height: 0;
+        text-align: left;
+        padding: 10px 12px;
+      }
+
+      .flow-step + .flow-step::before {
+        content: "↓";
+        left: 24px;
+        top: -9px;
+        transform: translate(-50%, 0);
+      }
+
+      .code-tour {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
+      .bug-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .mission-head {
+        flex-wrap: wrap;
+      }
+
+      .time-pill {
+        order: 3;
+      }
+
+      .example-swap {
+        grid-template-columns: 1fr;
+      }
+
+      .cert-checks {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    /* ---- Printing ---- */
+
+    @media print {
+      @page {
+        margin: 14mm;
+      }
+
+      body {
+        background: #ffffff;
+        font-size: 11pt;
+        print-color-adjust: exact;
+        -webkit-print-color-adjust: exact;
+      }
+
+      .hero {
+        padding: 0 0 16px;
+        background: #ffffff;
+        color: var(--ink);
+        border-bottom: 4px solid var(--gold);
+      }
+
+      .hero::before,
+      .hero::after,
+      .top-links,
+      .jump-nav,
+      .print-only {
+        display: none !important;
+      }
+
+      .hero h1 {
+        font-size: 34pt;
+      }
+
+      .hero h1 span {
+        color: var(--coral);
+      }
+
+      .lede,
+      .made-for {
+        color: var(--ink-soft);
+      }
+
+      .hero-badges span {
+        border-color: var(--line);
+        background: #f7fbfe;
+        color: var(--ink);
+      }
+
+      .wrap {
+        padding: 20px 0 0;
+      }
+
+      .panel,
+      .mission,
+      .certificate-wrap {
+        box-shadow: none;
+      }
+
+      .mission,
+      .certificate,
+      .panel {
+        break-inside: avoid;
+      }
+
+      .code-card {
+        box-shadow: none;
+        break-inside: avoid;
+      }
+
+      .mission-head {
+        background: #eef9ff !important;
+      }
+
+      .jump-nav a,
+      a {
+        text-decoration: none;
+      }
+
+      .mission {
+        margin-top: 18px;
+      }
+
+      pre {
+        font-size: 8.5pt;
+      }
+
+      .checkline input {
+        accent-color: #000000;
+      }
+
+      .manual-footer {
+        padding-bottom: 0;
+      }
+    }
+  </style>
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to the manual</a>
+
+  <header class="hero">
+    <div class="hero-inner">
+      <div class="top-links">
+        <a class="back-link" href="my-game.html">← Back to your game</a>
+        <button class="print-button" type="button" onclick="window.print()">🖨️ Print this manual</button>
+      </div>
+      <p class="eyebrow">The Makinka Wounder Land · Code Club</p>
+      <h1>Flight <span>Manual</span></h1>
+      <p class="lede">
+        You have played the game. Now change the code, add a golden money bag,
+        and make the Makinka Sky Squad truly yours.
+      </p>
+      <div class="hero-badges">
+        <span>🎓 For Grade 3 pilots</span>
+        <span>🛠️ 4 missions</span>
+        <span>⏱️ About 90 minutes</span>
+        <span>💻 Real HTML, CSS &amp; JavaScript</span>
+      </div>
+      <p class="made-for">Made for Emmanuel, Nduwa, Jemimah &amp; Joshua</p>
+    </div>
+  </header>
+
+  <nav class="jump-nav" aria-label="Manual sections">
+    <div class="jump-nav-inner">
+      <a href="#before">Before you start</a>
+      <a href="#mission-1">1. Your crew</a>
+      <a href="#mission-2">2. Tune it</a>
+      <a href="#mission-3">3. Golden bag</a>
+      <a href="#mission-4">4. Remix</a>
+      <a href="#certificate">Certificate</a>
+      <a href="#grown-ups">For grown-ups</a>
+    </div>
+  </nav>
+
+  <main class="wrap" id="main">
+    <!-- ==================== INTRODUCTION ==================== -->
+    <div class="intro-grid">
+      <section class="panel growth-mindset">
+        <p class="eyebrow-small">Welcome, game maker</p>
+        <h2>You are going to change real code.</h2>
+        <p>
+          This game already works. Your job is to make it <strong>your</strong> game:
+          rename the crew, change the rules, and add a golden money bag worth three coins.
+        </p>
+        <p>
+          You do not need to memorize anything. Real coders search, predict, test,
+          and fix. That is exactly what you will do.
+        </p>
+        <div class="big-rule">
+          <span class="rule-icon" aria-hidden="true">💡</span>
+          <span>The one rule of Code Club: change <strong>one thing</strong>, then test it.
+          If you change five things at once, you will not know which one made the difference.</span>
+        </div>
+      </section>
+
+      <aside class="panel grownup">
+        <span class="grownup-label">👩‍🏫 Grown-up co-pilot</span>
+        <h2>This is a remix, not a typing marathon.</h2>
+        <p>
+          The aim is fluency with a real, working project: finding code, changing data,
+          tracing an event, reading a condition, and debugging. Each mission has a
+          success check.
+        </p>
+        <p>
+          Sit together. Let the child make the choices and press the keys. Ask
+          “What do you think will happen?” before every test. If they get stuck,
+          ask a question before reaching for the keyboard.
+        </p>
+      </aside>
+    </div>
+
+    <!-- ==================== BEFORE YOU START ==================== -->
+    <section class="panel setup" id="before">
+      <p class="eyebrow-small">Before take-off</p>
+      <h2>Set up your flight deck</h2>
+      <p class="muted">
+        You need two windows: the game and the code. The game is what you test.
+        The code is what you change.
+      </p>
+
+      <ol class="setup-list">
+        <li>Play the game once. Try to collect all 10 coins.</li>
+        <li>
+          Use <code>my-game.html</code> for your edits. Keep <code>index.html</code>
+          safe as the original answer key.
+        </li>
+        <li>
+          Open <code>my-game.html</code> in a code editor. Notepad works;
+          Notepad++ or VS Code is even better. Never use Word — it adds curly quotes
+          that break code.
+        </li>
+        <li>
+          After every change: <strong>save</strong> (<kbd>Ctrl</kbd> + <kbd>S</kbd>),
+          then <strong>refresh</strong> the browser (<kbd>Ctrl</kbd> + <kbd>R</kbd>).
+        </li>
+      </ol>
+
+      <div class="callout debug">
+        <h3>🔧 If something goes wrong</h3>
+        <p>
+          Press <kbd>Ctrl</kbd> + <kbd>Z</kbd> to undo your last change. If the page
+          is blank, a quote or comma is probably missing. Compare your file with
+          <code>index.html</code> — the working answer key is always there.
+        </p>
+      </div>
+
+      <h3>The three parts of the game</h3>
+      <div class="code-map">
+        <div class="map-card">
+          <span class="file-tag">HTML</span>
+          <strong>The stage</strong>
+          <span>Buttons, crew cards, text, and the start screen. Look between <code>&lt;body&gt;</code> and <code>&lt;script&gt;</code>.</span>
+        </div>
+        <div class="map-card">
+          <span class="file-tag">CSS</span>
+          <strong>The paint</strong>
+          <span>Colors, the jet, the glowing bags, and animations. Look between <code>&lt;style&gt;</code> and <code>&lt;/style&gt;</code>.</span>
+        </div>
+        <div class="map-card">
+          <span class="file-tag">JavaScript</span>
+          <strong>The rules</strong>
+          <span>Score, time, clicks, and the win screen. Look inside <code>&lt;script&gt;</code> near the bottom.</span>
+        </div>
+      </div>
+
+      <h3>The game’s big idea</h3>
+      <div class="flow" aria-label="How one click moves through the game">
+        <div class="flow-step"><b>STEP 1</b>Tap a money bag</div>
+        <div class="flow-step"><b>STEP 2</b><code>onBagClick</code> runs</div>
+        <div class="flow-step"><b>STEP 3</b>Add coins to the score</div>
+        <div class="flow-step"><b>STEP 4</b>Update HUD, fire money, cheer</div>
+        <div class="flow-step highlight"><b>STEP 5</b>Score 10? Finish the game!</div>
+      </div>
+
+      <h3>Tour the whole code</h3>
+      <div class="code-tour">
+        <div class="tour-card"><b>1 · The crew</b><span>Names, roles, emojis, colors.</span></div>
+        <div class="tour-card"><b>2 · Game settings</b><span>Timer, goal, cheers, bag spots.</span></div>
+        <div class="tour-card"><b>3 · Page pieces</b><span>The script finds each part of the page.</span></div>
+        <div class="tour-card"><b>4 · Crew builder</b><span>Turns the crew list into cards.</span></div>
+        <div class="tour-card"><b>5 · Start &amp; finish</b><span>Resets the round, runs the timer, shows the result.</span></div>
+        <div class="tour-card"><b>6 · Pop a bag</b><span>The click rule, score, and win check.</span></div>
+        <div class="tour-card"><b>7 · Bag spots</b><span>Chooses a new random place for each bag.</span></div>
+        <div class="tour-card"><b>8 · Magic effects</b><span>Flying money, sparkles, and crew cheers.</span></div>
+        <div class="tour-card"><b>9 · Buttons</b><span>Connects Take Off and Fly Again.</span></div>
+      </div>
+
+      <div class="callout">
+        <h3>🏗️ How the game was built</h3>
+        <p>
+          The game was made in layers: first the <strong>HTML</strong> stage, then the
+          <strong>CSS</strong> paint, then the <strong>JavaScript</strong> rules. If you
+          ever want to build a game from a blank page, use the same order. For now,
+          remixing a working game is a real and valuable coding skill — it is how
+          professional programmers join a new project.
+        </p>
+      </div>
+
+      <div class="callout">
+        <h3>🔎 How to find things fast</h3>
+        <p>
+          Press <kbd>Ctrl</kbd> + <kbd>F</kbd> in your editor and search for the
+          <code>SECTION</code> names used in this manual. JavaScript starts at
+          <code>SECTION 1 — THE CREW</code>.
+        </p>
+      </div>
+    </section>
+
+    <!-- ==================== MISSION 1 ==================== -->
+    <section class="mission" id="mission-1">
+      <div class="mission-head">
+        <div class="mission-num" aria-hidden="true">01</div>
+        <div class="mission-title">
+          <p class="eyebrow-small" style="margin-bottom: 2px;">Mission one</p>
+          <h2>Make the crew yours</h2>
+          <p>Real coder skill: editing data and seeing it appear on screen.</p>
+        </div>
+        <span class="time-pill">⏱️ 15 min</span>
+      </div>
+
+      <div class="mission-body">
+        <div class="skill-tags">
+          <span>HTML &amp; JavaScript data</span>
+          <span>Lists</span>
+          <span>Objects</span>
+        </div>
+
+        <p>
+          Your four friends are already in the game. Let’s make their names, roles,
+          and flight colors feel just right.
+        </p>
+
+        <ol class="steps">
+          <li>Open <code>my-game.html</code> in your editor.</li>
+          <li>Search for <code>SECTION 1 — THE CREW</code>.</li>
+          <li>
+            You will find a list of four crew members. Each one has a name, a role,
+            an emoji, and a color.
+            <div class="code-card">
+              <div class="code-top"><span class="dots"><i></i><i></i><i></i></span><span>JavaScript · your crew</span></div>
+              <pre><code>const CREW = [
+  { name: "Emmanuel", role: "Pilot",    emoji: "🦊", color: "#ffb703" },
+  { name: "Nduwa",    role: "Navigator", emoji: "🐼", color: "#48cae4" },
+  { name: "Jemimah",  role: "Engineer",  emoji: "🐰", color: "#ff8fab" },
+  { name: "Joshua",   role: "Spotter",   emoji: "🐻", color: "#8ac926" }
+];</code></pre>
+            </div>
+          </li>
+          <li>
+            Change <strong>one thing</strong> first. Try giving Emmanuel a new role,
+            such as <code>"Captain"</code>. Keep the quotes!
+          </li>
+          <li>Save, refresh, and look at the start screen. Then look at the plane’s cockpit.</li>
+          <li>If it worked, change an emoji or a color for each friend.</li>
+        </ol>
+
+        <div class="palette" aria-label="Color ideas">
+          <span style="--swatch: #ffb703;">gold</span>
+          <span style="--swatch: #ff8fab;">pink</span>
+          <span style="--swatch: #48cae4;">sky blue</span>
+          <span style="--swatch: #8ac926;">leaf green</span>
+          <span style="--swatch: #e76f51; ">coral</span>
+          <span style="--swatch: #b388eb;">violet</span>
+          <span style="--swatch: #ffd166;">sunshine</span>
+          <span class="dark" style="--swatch: #10243e;">navy</span>
+        </div>
+
+        <div class="callout concept">
+          <h3>🧠 What just happened?</h3>
+          <p>
+            <code>CREW</code> is a <strong>list</strong> of four <strong>objects</strong>.
+            An object is like a labelled backpack: <code>name</code> holds a name,
+            <code>role</code> holds a job, and <code>emoji</code> holds a picture.
+            The page reads the list and builds the crew cards and cockpit bubbles
+            automatically. Change the data once, and it appears in both places.
+          </p>
+        </div>
+
+        <div class="callout test">
+          <h3>✅ Success check</h3>
+          <p>
+            All four friends have their own look, and the changes appear both on the
+            start screen and inside the Blackbird. You can point to the exact line
+            that changed each one.
+          </p>
+          <label class="checkline"><input type="checkbox"> I changed a crew member’s data and predicted what would happen.</label>
+          <label class="checkline"><input type="checkbox"> I found the change on the start screen and in the cockpit.</label>
+        </div>
+
+        <div class="callout co-pilot">
+          <h3>👩‍🏫 Co-pilot prompt</h3>
+          <p>
+            Ask: “Why do you think the name appears in two places after we changed it
+            only once?” Listen for “the page uses the same list.” That is data-driven design.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==================== MISSION 2 ==================== -->
+    <section class="mission" id="mission-2">
+      <div class="mission-head">
+        <div class="mission-num" aria-hidden="true">02</div>
+        <div class="mission-title">
+          <p class="eyebrow-small" style="margin-bottom: 2px;">Mission two</p>
+          <h2>Tune the mission</h2>
+          <p>Real coder skill: changing variables and testing game balance.</p>
+        </div>
+        <span class="time-pill">⏱️ 15 min</span>
+      </div>
+
+      <div class="mission-body">
+        <div class="skill-tags">
+          <span>Variables</span>
+          <span>Numbers</span>
+          <span>Testing</span>
+        </div>
+
+        <p>
+          A <strong>variable</strong> is a labelled box that holds a value. The game
+          has two important boxes: how long a round lasts, and how many coins you need
+          to win.
+        </p>
+
+        <ol class="steps">
+          <li>Search for <code>SECTION 2 — GAME SETTINGS</code>.</li>
+          <li>
+            Find these two lines:
+            <div class="code-card">
+              <div class="code-top"><span class="dots"><i></i><i></i><i></i></span><span>JavaScript · settings</span></div>
+              <pre><code>const GAME_SECONDS = 30;
+const BAGS_TO_WIN = 10;</code></pre>
+            </div>
+          </li>
+          <li>
+            <strong>Predict first.</strong> What would happen if you changed
+            <code>GAME_SECONDS</code> to <code>10</code> and <code>BAGS_TO_WIN</code> to <code>3</code>?
+            Say it out loud before you touch the code.
+          </li>
+          <li>
+            Change the numbers to <code>20</code> and <code>6</code>. Save and refresh.
+            The start screen and HUD will show your new rules. Play a round.
+          </li>
+          <li>
+            Now try a tiny game: <code>GAME_SECONDS = 5</code> and
+            <code>BAGS_TO_WIN = 10</code>. Can you win? Why or why not?
+          </li>
+          <li>Choose settings that feel fun, then keep them.</li>
+        </ol>
+
+        <div class="callout concept">
+          <h3>🧠 What just happened?</h3>
+          <p>
+            The game uses these values in several places: the timer, the start screen,
+            the HUD, and the win check. By changing one variable, you changed the whole
+            game. That is why programmers use variables instead of typing the same number
+            into ten different places.
+          </p>
+        </div>
+
+        <div class="callout test">
+          <h3>✅ Success check</h3>
+          <p>
+            The start screen shows your new goal and time, the countdown matches, and
+            you can explain why a 5-second game with a 10-coin goal is difficult.
+          </p>
+          <label class="checkline"><input type="checkbox"> I predicted before I tested.</label>
+          <label class="checkline"><input type="checkbox"> I can explain what a variable is in my own words.</label>
+        </div>
+
+        <div class="callout co-pilot">
+          <h3>👩‍🏫 Co-pilot prompt</h3>
+          <p>
+            Ask: “If we wanted the game to be fair for a younger cousin, which number
+            would you change first?” There is no single right answer — the reasoning is
+            the learning.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==================== MISSION 3 ==================== -->
+    <section class="mission" id="mission-3">
+      <div class="mission-head">
+        <div class="mission-num" aria-hidden="true">03</div>
+        <div class="mission-title">
+          <p class="eyebrow-small" style="margin-bottom: 2px;">Mission three</p>
+          <h2>Add a golden money bag</h2>
+          <p>Real coder skill: HTML attributes, data, and arithmetic.</p>
+        </div>
+        <span class="time-pill">⏱️ 25 min</span>
+      </div>
+
+      <div class="mission-body">
+        <div class="skill-tags">
+          <span>HTML attributes</span>
+          <span>Data attributes</span>
+          <span>Math</span>
+          <span>Game balance</span>
+        </div>
+
+        <p>
+          The game already has golden-bag paint and a rule for bonus points. It is
+          waiting for you to tell one bag: “You are golden, and you are worth three coins.”
+        </p>
+
+        <h3>First, be a code detective</h3>
+        <p>
+          Find the three money-bag buttons in the HTML. Search for
+          <code>Shoot a money bag</code>.
+        </p>
+
+        <div class="code-card">
+          <div class="code-top"><span class="dots"><i></i><i></i><i></i></span><span>HTML · the three bags</span></div>
+          <pre><code>&lt;button class="bag" type="button" data-points="1" aria-label="Shoot a money bag"&gt;💰&lt;/button&gt;
+&lt;button class="bag" type="button" data-points="1" aria-label="Shoot a money bag"&gt;💰&lt;/button&gt;
+&lt;button class="bag" type="button" data-points="1" aria-label="Shoot a money bag"&gt;💰&lt;/button&gt;</code></pre>
+        </div>
+
+        <p>
+          The <code>data-points="1"</code> is a secret note attached to the button.
+          JavaScript reads that note when the bag is clicked. The scoring code looks
+          like this:
+        </p>
+
+        <div class="code-card">
+          <div class="code-top"><span class="dots"><i></i><i></i><i></i></span><span>JavaScript · how points work</span></div>
+          <pre><code>const points = Math.max(1, Number(bag.dataset.points) || 1);
+score = Math.min(score + points, BAGS_TO_WIN);
+updateHud();</code></pre>
+        </div>
+
+        <p>
+          <code>Number</code> turns the text <code>"1"</code> into the number
+          <code>1</code>. <code>Math.min</code> makes sure the score never goes past
+          your goal. The score changes, and then the screen updates.
+        </p>
+
+        <h3>Now make it golden</h3>
+        <ol class="steps">
+          <li>
+            Change the <strong>third</strong> bag button to this:
+            <div class="code-card">
+              <div class="code-top"><span class="dots"><i></i><i></i><i></i></span><span>HTML · the golden bag</span></div>
+              <pre><code>&lt;button class="bag golden" type="button" data-points="3" aria-label="Shoot the golden money bag"&gt;💰&lt;/button&gt;</code></pre>
+            </div>
+            You changed three things:
+            <ul>
+              <li><code>golden</code> turns on the golden paint that is already in the CSS.</li>
+              <li><code>data-points="3"</code> tells the game this bag is worth three coins.</li>
+              <li>The <code>aria-label</code> now describes the golden bag for someone using a screen reader.</li>
+            </ul>
+          </li>
+          <li>Save, refresh, and start a round.</li>
+          <li>Tap the golden bag. The score should jump by <strong>3</strong>, and a “3 COINS!” label should appear below it.</li>
+          <li>
+            Think like a game designer: one golden bag makes the game much easier.
+            Try <code>BAGS_TO_WIN = 15</code> or <code>20</code>. Which makes a fun,
+            fair round?
+          </li>
+        </ol>
+
+        <div class="example-swap">
+          <div class="swap-box good">
+            <strong>Works</strong>
+            <code>class="bag golden"</code><br>
+            <code>data-points="3"</code>
+          </div>
+          <div class="swap-box bug">
+            <strong>Buggy clues</strong>
+            <code>class="bag gold"</code> → no gold paint<br>
+            <code>data-points="three"</code> → gives 1 coin
+          </div>
+        </div>
+
+        <div class="callout concept">
+          <h3>🧠 What just happened?</h3>
+          <p>
+            An HTML <strong>attribute</strong> gives extra information to an element.
+            <code>class</code> controls style. <code>data-points</code> stores game data.
+            <code>aria-label</code> helps people who cannot see the screen. The same
+            element can carry style, data, and an accessibility label at once.
+          </p>
+        </div>
+
+        <div class="callout debug">
+          <h3>🔧 If your golden bag misbehaves</h3>
+          <ul>
+            <li><strong>It gives 1 coin:</strong> check that it says <code>data-points="3"</code> and not <code>"three"</code>.</li>
+            <li><strong>It is not golden:</strong> check the class is exactly <code>bag golden</code>.</li>
+            <li><strong>The whole page is blank:</strong> a quote mark or angle bracket is missing. Undo and compare with <code>index.html</code>.</li>
+          </ul>
+        </div>
+
+        <div class="callout test">
+          <h3>✅ Success check</h3>
+          <p>
+            One bag is clearly golden, tapping it awards three coins, and the game
+            still finishes correctly at the goal.
+          </p>
+          <label class="checkline"><input type="checkbox"> I made a golden bag.</label>
+          <label class="checkline"><input type="checkbox"> I tested the bonus points and adjusted the goal.</label>
+        </div>
+
+        <div class="callout co-pilot">
+          <h3>👩‍🏫 Co-pilot prompt</h3>
+          <p>
+            Ask: “Where did the number 3 come from?” The child should point to the
+            <code>data-points</code> attribute and the line that reads
+            <code>bag.dataset.points</code>. This is the bridge between HTML data and
+            JavaScript logic.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==================== MISSION 4 ==================== -->
+    <section class="mission" id="mission-4">
+      <div class="mission-head">
+        <div class="mission-num" aria-hidden="true">04</div>
+        <div class="mission-title">
+          <p class="eyebrow-small" style="margin-bottom: 2px;">Mission four</p>
+          <h2>Remix and debug</h2>
+          <p>Real coder skill: changing code safely and fixing problems.</p>
+        </div>
+        <span class="time-pill">⏱️ 25 min</span>
+      </div>
+
+      <div class="mission-body">
+        <div class="skill-tags">
+          <span>Remixing</span>
+          <span>Strings</span>
+          <span>Debugging</span>
+          <span>Design</span>
+        </div>
+
+        <p>
+          Now make the game feel like yours. Choose at least <strong>two</strong> remixes.
+          Remember: one change, save, refresh, test.
+        </p>
+
+        <h3>Remix menu</h3>
+        <ol class="steps">
+          <li>
+            <strong>Change the flying money.</strong> Search for
+            <code>shot.textContent</code> in <code>SECTION 8</code>. Change
+            <code>"💵"</code> to <code>"🪙"</code>, <code>"⭐"</code>, or your own emoji.
+            Keep the quotes around it.
+          </li>
+          <li>
+            <strong>Slow the money down.</strong> In the same function, find
+            <code>duration: 330</code> and change it to <code>650</code>. Test it.
+            Is 650 too slow? Pick a number you like.
+          </li>
+          <li>
+            <strong>Give the crew a new cheer.</strong> In <code>SECTION 2</code>, find
+            the <code>CHEERS</code> list. Add a line such as
+            <code>"Sky Squad forever!"</code> with a comma after the line before it.
+          </li>
+          <li>
+            <strong>Add a fourth money bag.</strong> Copy one whole normal bag button
+            (not the golden one!) and paste it right after the others. Because the game
+            looks for every <code>.bag</code>, the new one joins automatically. You may
+            want to raise the goal.
+          </li>
+        </ol>
+
+        <div class="callout">
+          <h3>💡 How does the fourth bag work?</h3>
+          <p>
+            The line <code>document.querySelectorAll(".bag")</code> collects every
+            element with the class <code>bag</code>. The game loops over that list and
+            attaches a click listener to each one. You did not need to add any JavaScript.
+            Good code is built to handle new pieces.
+          </p>
+        </div>
+
+        <h3>Bug Hunt 🐛</h3>
+        <p>
+          A bug is not a disaster. It is a clue. Try one of these tiny mistakes on purpose,
+          then find and fix it. Use a copy if you want to keep your golden bag safe.
+        </p>
+
+        <div class="bug-grid">
+          <div class="bug-card">
+            <b>Bug 1: The weak golden bag</b>
+            <p>
+              Change <code>data-points="3"</code> to <code>data-points="three"</code>.
+              The bag still looks golden, but gives only one coin. Why?
+              <br><br>
+              <strong>Fix:</strong> use the number <code>3</code>, not the word
+              <code>three</code>.
+            </p>
+          </div>
+          <div class="bug-card">
+            <b>Bug 2: The invisible paint</b>
+            <p>
+              Change <code>class="bag golden"</code> to <code>class="bag gold"</code>.
+              The bag works but looks ordinary.
+              <br><br>
+              <strong>Fix:</strong> the CSS class is spelled <code>golden</code>.
+            </p>
+          </div>
+          <div class="bug-card">
+            <b>Bug 3: The impossible mission</b>
+            <p>
+              Set <code>GAME_SECONDS = 1</code> and <code>BAGS_TO_WIN = 10</code>.
+              Try to win. This is not a syntax error — it is a design bug.
+              <br><br>
+              <strong>Fix:</strong> change one number until the game feels fair.
+            </p>
+          </div>
+        </div>
+
+        <div class="callout debug">
+          <h3>🔎 The Bug Detective’s checklist</h3>
+          <ul>
+            <li>What is the smallest change I made?</li>
+            <li>Does the code have all its quotes, commas, and closing brackets?</li>
+            <li>Can I undo it with <kbd>Ctrl</kbd> + <kbd>Z</kbd>?</li>
+            <li>What does the original <code>index.html</code> look like on that line?</li>
+            <li>Did I save and refresh before deciding it is broken?</li>
+          </ul>
+        </div>
+
+        <div class="callout test">
+          <h3>✅ Success check</h3>
+          <p>
+            You changed the game in at least two ways, you found and fixed one bug,
+            and you can describe what happened using the words
+            <strong>variable</strong>, <strong>attribute</strong>, or <strong>event</strong>.
+          </p>
+          <label class="checkline"><input type="checkbox"> I completed two remixes.</label>
+          <label class="checkline"><input type="checkbox"> I found a bug on purpose and fixed it.</label>
+        </div>
+
+        <div class="callout co-pilot">
+          <h3>👩‍🏫 Co-pilot prompt</h3>
+          <p>
+            Ask: “What is one thing you would change if we had another hour?”
+            Then ask, “What would you need to learn to build it?” That turns excitement
+            into a next-step plan.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==================== CERTIFICATE ==================== -->
+    <section class="certificate-wrap" id="certificate">
+      <div class="certificate">
+        <p class="cert-kicker">The Makinka Wounder Land · Code Club</p>
+        <h2>Sky Squad Coder</h2>
+        <p class="cert-sub">
+          This pilot has completed four coding missions, changed real code, and made
+          the Makinka Sky Squad their own.
+        </p>
+
+        <div class="name-line" aria-label="Write your name here">Write your name here</div>
+
+        <div class="cert-checks">
+          <span>Edited HTML and crew data</span>
+          <span>Used variables to change a game</span>
+          <span>Built a working golden bag</span>
+          <span>Found and fixed a bug</span>
+          <span>Tested one change at a time</span>
+          <span>Designed a fair game</span>
+        </div>
+
+        <div class="cert-footer">
+          <span>Pilot signature</span>
+          <span>Co-pilot signature</span>
+          <span>Date</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==================== GROWN-UP NOTES ==================== -->
+    <section class="panel grownup" id="grown-ups" style="margin-top: 30px;">
+      <span class="grownup-label">👩‍🏫 For the grown-up co-pilot</span>
+      <h2>Running the Code Club</h2>
+      <p>
+        The manual is designed for one child with one adult, but it works for a small
+        group. Four sessions of 20–30 minutes is plenty. Stop while it is still fun.
+      </p>
+
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>Session</th>
+              <th>Focus</th>
+              <th>What success looks like</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>1</strong></td>
+              <td>Read the game, meet the crew, edit the <code>CREW</code> data.</td>
+              <td>Changes names/roles/colors and tests them in both the crew cards and cockpit.</td>
+            </tr>
+            <tr>
+              <td><strong>2</strong></td>
+              <td>Variables and game balance.</td>
+              <td>Predicts and tests new timer/goal values; explains why the game changed.</td>
+            </tr>
+            <tr>
+              <td><strong>3</strong></td>
+              <td>Trace a click and build a golden bag.</td>
+              <td>Adds <code>golden</code> and <code>data-points</code>, sees +3 coins, balances the goal.</td>
+            </tr>
+            <tr>
+              <td><strong>4</strong></td>
+              <td>Remix and debug.</td>
+              <td>Completes two remixes, fixes one deliberate bug, describes the cause.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h3>Prep checklist</h3>
+      <ul>
+        <li>Open <code>my-game.html</code> once to confirm it runs in your browser.</li>
+        <li>Install a simple editor if you can: Notepad++, VS Code, or Sublime Text. Set a large font.</li>
+        <li>Keep <code>index.html</code> untouched as the reference solution.</li>
+        <li>Print the manual and certificate if you prefer paper.</li>
+        <li>No internet, accounts, or personal data are needed.</li>
+      </ul>
+
+      <h3>Five teaching moves that work</h3>
+      <ol>
+        <li><strong>Predict, test, explain.</strong> “What do you think will happen?” is more powerful than “Click that.”</li>
+        <li><strong>One change at a time.</strong> This is the core debugging habit.</li>
+        <li><strong>Let the child drive.</strong> You can point and ask, but let their hands be on the keyboard.</li>
+        <li><strong>Praise the process.</strong> “You found the exact line” beats “You’re so clever.”</li>
+        <li><strong>Make it theirs.</strong> If they want a pizza instead of money, help them change the emoji. Playfulness keeps the learning alive.</li>
+      </ol>
+
+      <h3>Common problems and fixes</h3>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>Problem</th>
+              <th>Likely cause</th>
+              <th>Fix</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Page is blank after a change.</td>
+              <td>Missing quote, comma, or bracket.</td>
+              <td>Undo (<kbd>Ctrl</kbd> + <kbd>Z</kbd>) and compare with <code>index.html</code>.</td>
+            </tr>
+            <tr>
+              <td>Changes do not show.</td>
+              <td>The file was not saved or the browser is showing the old copy.</td>
+              <td>Save, then refresh. Confirm you are editing the file you opened.</td>
+            </tr>
+            <tr>
+              <td>Golden bag gives 1 coin.</td>
+              <td><code>data-points</code> is a word, not a number.</td>
+              <td>Use <code>data-points="3"</code>.</td>
+            </tr>
+            <tr>
+              <td>Score jumps from 9 to 10, not 12.</td>
+              <td>The code caps the score at the goal so the HUD never shows “12 / 10”.</td>
+              <td>This is intentional. The win check still fires; discuss why we cap the score.</td>
+            </tr>
+            <tr>
+              <td>Emoji shows as an empty box.</td>
+              <td>The browser or device is missing that emoji.</td>
+              <td>Choose a common emoji such as 💰, ⭐, or 💵.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h3>Next-step ideas for eager pilots</h3>
+      <ul>
+        <li>Add a fifth money bag and tune the goal.</li>
+        <li>Add a 3-2-1 countdown before the timer starts.</li>
+        <li>Add a high-score list using <code>localStorage</code>.</li>
+        <li>Add a friendly sound effect with the Web Audio API.</li>
+        <li>Design a second level with a slower timer and more bags.</li>
+      </ul>
+
+      <h3>Words we used</h3>
+      <div class="glossary">
+        <div class="word"><b>HTML</b> — the page’s structure: buttons, text, sections.</div>
+        <div class="word"><b>CSS</b> — the page’s style: colors, layout, animation.</div>
+        <div class="word"><b>JavaScript</b> — the rules that make the page interactive.</div>
+        <div class="word"><b>Element</b> — one piece of the page, like a button or card.</div>
+        <div class="word"><b>Attribute</b> — extra information on an element, like <code>class</code> or <code>data-points</code>.</div>
+        <div class="word"><b>Variable</b> — a named box that stores a value.</div>
+        <div class="word"><b>String</b> — text inside quotes, like <code>"Emmanuel"</code>.</div>
+        <div class="word"><b>Number</b> — a value used for math, like <code>30</code>.</div>
+        <div class="word"><b>Function</b> — a named set of instructions. It runs when called.</div>
+        <div class="word"><b>Event</b> — something that happens, like a click or a timer tick.</div>
+        <div class="word"><b>Condition</b> — an “if” question, like “Did the score reach 10?”</div>
+        <div class="word"><b>List / array</b> — an ordered collection, like all four crew members.</div>
+        <div class="word"><b>Object</b> — a group of labelled values, like one crew member.</div>
+        <div class="word"><b>Debug</b> — find, understand, and fix a problem.</div>
+      </div>
+    </section>
+
+    <p class="manual-footer">
+      Built for the Makinka crew with HTML, CSS, JavaScript, imagination, and a very fast plane.<br>
+      <a href="my-game.html">Play your game</a> · Keep <code>index.html</code> safe · Make something wonderful.
+    </p>
+  </main>
+</body>
+</html>
