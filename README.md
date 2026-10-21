@@ -6,6 +6,9 @@ Tap the flying money bags. The crew fires money at them, and you collect coins. 
 
 No installs, no internet, and no accounts are needed.
 
+**Play online:** [nduwamakinka.github.io/makinka-sky-squad](https://nduwamakinka.github.io/makinka-sky-squad/)  
+**Code Club manual:** [nduwamakinka.github.io/makinka-sky-squad/learn.html](https://nduwamakinka.github.io/makinka-sky-squad/learn.html)
+
 ![Makinka Sky Squad start screen](screenshot.png)
 
 ## Play
