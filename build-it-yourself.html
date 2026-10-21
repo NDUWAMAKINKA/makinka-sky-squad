@@ -1,0 +1,885 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Build the whole Makinka Money Pop game yourself in 14 lines of code. A beginner coding activity for Grade 3.">
+  <title>Build the Game — 14 Lines</title>
+  <style>
+    :root {
+      --ink: #10243e;
+      --soft: #50677c;
+      --cream: #fffdf6;
+      --gold: #ffb703;
+      --gold-deep: #d18a00;
+      --sky: #bfe8ff;
+      --blue: #1f6388;
+      --green: #237a63;
+      --coral: #a83d26;
+      --line: #d8eaf5;
+      --code: #0a2038;
+    }
+
+    *,
+    *::before,
+    *::after {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      background:
+        radial-gradient(circle at 85% 0%, rgba(255, 226, 122, 0.3), transparent 30%),
+        var(--sky);
+      color: var(--ink);
+      font-family: "Trebuchet MS", "Segoe UI", system-ui, sans-serif;
+      font-size: 17px;
+      line-height: 1.55;
+    }
+
+    a {
+      color: var(--blue);
+      font-weight: 800;
+      text-underline-offset: 3px;
+    }
+
+    a:hover {
+      color: var(--coral);
+    }
+
+    .wrap {
+      width: min(940px, 100%);
+      margin: 0 auto;
+      padding: 28px clamp(16px, 4vw, 32px) 60px;
+    }
+
+    .hero {
+      position: relative;
+      overflow: hidden;
+      padding: clamp(28px, 6vw, 54px);
+      border: 4px solid rgba(255, 255, 255, 0.9);
+      border-radius: 30px;
+      background:
+        radial-gradient(circle at 90% 10%, rgba(255, 221, 104, 0.32), transparent 28%),
+        linear-gradient(145deg, #0a2038, #164c68);
+      color: #ffffff;
+      box-shadow: 0 16px 0 rgba(16, 36, 62, 0.15), 0 28px 55px rgba(16, 36, 62, 0.2);
+    }
+
+    .hero::after {
+      content: "💰";
+      position: absolute;
+      right: -10px;
+      bottom: -28px;
+      font-size: clamp(8rem, 24vw, 16rem);
+      opacity: 0.12;
+      transform: rotate(-14deg);
+      pointer-events: none;
+    }
+
+    .topline {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      position: relative;
+      z-index: 1;
+      margin-bottom: 28px;
+    }
+
+    .pill-link,
+    .print-button {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      min-height: 40px;
+      padding: 8px 13px;
+      border: 2px solid rgba(255, 255, 255, 0.18);
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.08);
+      color: #ffffff;
+      font-family: inherit;
+      font-size: 0.73rem;
+      font-weight: 800;
+      text-decoration: none;
+      cursor: pointer;
+    }
+
+    .pill-link:hover,
+    .print-button:hover {
+      background: rgba(255, 255, 255, 0.16);
+      color: #ffffff;
+    }
+
+    .kicker {
+      position: relative;
+      z-index: 1;
+      margin: 0;
+      color: var(--gold);
+      font-size: 0.68rem;
+      font-weight: 900;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+    }
+
+    h1 {
+      position: relative;
+      z-index: 1;
+      max-width: 720px;
+      margin: 8px 0 0;
+      font-size: clamp(2.6rem, 8vw, 5.2rem);
+      font-weight: 900;
+      letter-spacing: -0.05em;
+      line-height: 0.9;
+      text-transform: uppercase;
+    }
+
+    h1 span {
+      color: var(--sky);
+    }
+
+    .lede {
+      position: relative;
+      z-index: 1;
+      max-width: 650px;
+      margin: 18px 0 0;
+      color: #dff6ff;
+      font-size: clamp(1rem, 2.5vw, 1.12rem);
+      font-weight: 700;
+    }
+
+    .hero-badges {
+      position: relative;
+      z-index: 1;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 7px;
+      margin-top: 20px;
+    }
+
+    .hero-badges span {
+      padding: 5px 11px;
+      border: 1px solid rgba(255, 255, 255, 0.14);
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.07);
+      color: #eefcff;
+      font-size: 0.7rem;
+      font-weight: 800;
+    }
+
+    .hero-buttons {
+      position: relative;
+      z-index: 1;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 24px;
+    }
+
+    .button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 50px;
+      padding: 12px 20px;
+      border: 0;
+      border-radius: 999px;
+      font-family: inherit;
+      font-size: 0.95rem;
+      font-weight: 900;
+      text-decoration: none;
+      transition: transform 0.12s ease;
+    }
+
+    .button:hover {
+      transform: translateY(-2px);
+    }
+
+    .button.gold {
+      background: var(--gold);
+      color: var(--ink);
+      box-shadow: 0 6px 0 var(--gold-deep);
+    }
+
+    .button.ghost {
+      border: 2px solid rgba(255, 255, 255, 0.24);
+      background: rgba(255, 255, 255, 0.08);
+      color: #ffffff;
+    }
+
+    .panel {
+      margin-top: 18px;
+      padding: clamp(18px, 4vw, 30px);
+      border: 2px solid var(--line);
+      border-radius: 24px;
+      background: var(--cream);
+      box-shadow: 0 8px 0 rgba(16, 36, 62, 0.05);
+    }
+
+    .panel h2 {
+      margin: 0 0 10px;
+      font-size: clamp(1.4rem, 3.6vw, 1.9rem);
+      line-height: 1.08;
+      letter-spacing: -0.025em;
+    }
+
+    .panel h3 {
+      margin: 22px 0 8px;
+      font-size: 1.06rem;
+    }
+
+    .panel h3:first-child {
+      margin-top: 0;
+    }
+
+    .panel p:last-child {
+      margin-bottom: 0;
+    }
+
+    .two-col {
+      display: grid;
+      grid-template-columns: 1.15fr 0.85fr;
+      gap: 18px;
+      align-items: start;
+    }
+
+    .eyebrow {
+      margin: 0 0 6px;
+      color: var(--coral);
+      font-size: 0.65rem;
+      font-weight: 900;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+    }
+
+    .rule-box {
+      margin-top: 14px;
+      padding: 13px 15px;
+      border-radius: 14px;
+      background: #fff3bd;
+      color: #6c4a00;
+      font-size: 0.86rem;
+      font-weight: 800;
+    }
+
+    .steps {
+      margin: 16px 0 0;
+      padding: 0;
+      list-style: none;
+      counter-reset: steps;
+    }
+
+    .steps > li {
+      position: relative;
+      margin-bottom: 15px;
+      padding-left: 40px;
+      font-weight: 700;
+    }
+
+    .steps > li::before {
+      counter-increment: steps;
+      content: counter(steps);
+      position: absolute;
+      top: 1px;
+      left: 0;
+      display: grid;
+      place-items: center;
+      width: 27px;
+      height: 27px;
+      border: 2px solid #c5e4f5;
+      border-radius: 50%;
+      background: #eaf8ff;
+      color: #1a5d7f;
+      font-size: 0.75rem;
+      font-weight: 900;
+    }
+
+    kbd {
+      display: inline-block;
+      padding: 1px 5px;
+      border: 1px solid #c9dfeb;
+      border-bottom-width: 2px;
+      border-radius: 5px;
+      background: #f8fcff;
+      color: #38576b;
+      font-family: "Cascadia Code", Consolas, "Courier New", monospace;
+      font-size: 0.75em;
+      white-space: nowrap;
+    }
+
+    code {
+      padding: 2px 6px;
+      border: 1px solid #cfe6f5;
+      border-radius: 6px;
+      background: #edf8ff;
+      color: #165d83;
+      font-family: "Cascadia Code", Consolas, "Courier New", monospace;
+      font-size: 0.86em;
+      overflow-wrap: anywhere;
+    }
+
+    .code-shell {
+      margin-top: 18px;
+      overflow: hidden;
+      border-radius: 16px;
+      background: var(--code);
+      box-shadow: 0 8px 0 rgba(10, 32, 56, 0.14);
+    }
+
+    .code-bar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 9px 14px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.09);
+      background: rgba(255, 255, 255, 0.05);
+      color: #9cc5dc;
+      font-size: 0.62rem;
+      font-weight: 900;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .dots {
+      display: flex;
+      gap: 5px;
+    }
+
+    .dots i {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: #ff7b72;
+    }
+
+    .dots i:nth-child(2) {
+      background: #ffd166;
+    }
+
+    .dots i:nth-child(3) {
+      background: #6ee7b7;
+    }
+
+    .code {
+      margin: 0;
+      padding: 14px 12px 16px;
+      overflow-x: auto;
+      color: #e8f8ff;
+      font-family: "Cascadia Code", Consolas, "Courier New", monospace;
+      font-size: clamp(0.67rem, 1.8vw, 0.8rem);
+      line-height: 1.65;
+      white-space: normal;
+      overflow-wrap: anywhere;
+      counter-reset: code-line;
+    }
+
+    .code .line {
+      display: block;
+      position: relative;
+      padding-left: 31px;
+      text-indent: -31px;
+    }
+
+    .code .line::before {
+      counter-increment: code-line;
+      content: counter(code-line);
+      display: inline-block;
+      width: 24px;
+      margin-right: 7px;
+      color: #6e94aa;
+      text-align: right;
+      user-select: none;
+    }
+
+    .callout {
+      margin: 14px 0;
+      padding: 13px 15px;
+      border-left: 4px solid var(--blue);
+      border-radius: 0 13px 13px 0;
+      background: #eef9ff;
+      font-size: 0.87rem;
+    }
+
+    .callout.green {
+      border-left-color: var(--green);
+      background: #edfbf6;
+    }
+
+    .callout.gold {
+      border-left-color: #c28a17;
+      background: #fff8e6;
+    }
+
+    .callout.coral {
+      border-left-color: var(--coral);
+      background: #fff2ee;
+    }
+
+    .callout strong {
+      color: #194e68;
+    }
+
+    .callout h3 {
+      margin: 0 0 5px;
+      font-size: 0.94rem;
+    }
+
+    .callout p,
+    .callout ul {
+      margin: 0;
+      color: #3d5669;
+    }
+
+    .callout ul {
+      padding-left: 19px;
+    }
+
+    .line-table {
+      width: 100%;
+      margin-top: 14px;
+      border-collapse: collapse;
+      background: #ffffff;
+      font-size: 0.8rem;
+    }
+
+    .line-table th,
+    .line-table td {
+      padding: 9px 10px;
+      border-bottom: 1px solid #e5f1f8;
+      text-align: left;
+      vertical-align: top;
+    }
+
+    .line-table th {
+      background: #edf9ff;
+      color: #1a5878;
+      font-size: 0.64rem;
+      letter-spacing: 0.07em;
+      text-transform: uppercase;
+    }
+
+    .line-table tr:last-child td {
+      border-bottom: 0;
+    }
+
+    .line-table td:first-child {
+      width: 42px;
+      color: #1c6388;
+      font-weight: 900;
+      font-family: "Cascadia Code", Consolas, monospace;
+    }
+
+    .checklist {
+      display: grid;
+      gap: 7px;
+      margin-top: 12px;
+    }
+
+    .checklist label {
+      display: flex;
+      align-items: flex-start;
+      gap: 8px;
+      padding: 9px 11px;
+      border: 1px dashed #bfddeb;
+      border-radius: 10px;
+      background: #ffffff;
+      color: #355268;
+      font-size: 0.84rem;
+      font-weight: 700;
+    }
+
+    .checklist input {
+      margin-top: 2px;
+      accent-color: var(--green);
+    }
+
+    .final-card {
+      margin-top: 20px;
+      padding: 24px;
+      border: 3px solid var(--gold);
+      border-radius: 22px;
+      background: #fffdf6;
+      text-align: center;
+    }
+
+    .final-card .big {
+      margin: 0;
+      font-size: 2.4rem;
+      line-height: 1;
+    }
+
+    .final-card h2 {
+      margin: 4px 0 6px;
+    }
+
+    .small {
+      color: var(--soft);
+      font-size: 0.78rem;
+      font-weight: 700;
+    }
+
+    .footer {
+      padding-top: 24px;
+      color: var(--soft);
+      text-align: center;
+      font-size: 0.75rem;
+      font-weight: 700;
+    }
+
+    .footer a {
+      color: var(--blue);
+    }
+
+    .archive-note {
+      margin-top: 18px;
+      padding-top: 14px;
+      border-top: 1px dashed #c3dfea;
+      color: var(--soft);
+      font-size: 0.72rem;
+      font-weight: 700;
+    }
+
+    @media (max-width: 720px) {
+      .two-col {
+        grid-template-columns: 1fr;
+      }
+
+      .hero {
+        border-radius: 22px;
+      }
+
+      .line-table {
+        font-size: 0.73rem;
+      }
+
+      .topline {
+        align-items: flex-start;
+      }
+
+      .print-button {
+        display: none;
+      }
+    }
+
+    @media print {
+      body {
+        background: #ffffff;
+        font-size: 11pt;
+      }
+
+      .wrap {
+        padding: 0;
+      }
+
+      .hero {
+        background: #ffffff;
+        color: var(--ink);
+        border-color: var(--gold);
+        box-shadow: none;
+      }
+
+      .hero::after,
+      .topline,
+      .hero-buttons {
+        display: none;
+      }
+
+      .kicker,
+      h1 span {
+        color: var(--coral);
+      }
+
+      .lede,
+      .hero-badges span {
+        color: var(--ink);
+      }
+
+      .hero-badges span {
+        border-color: var(--line);
+        background: #f6fbfe;
+      }
+
+      .panel {
+        box-shadow: none;
+        break-inside: avoid;
+      }
+
+      .code-shell {
+        box-shadow: none;
+        break-inside: avoid;
+      }
+
+      .code {
+        font-size: 8.5pt;
+      }
+
+      .archive-note {
+        display: none;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <header class="hero">
+      <div class="topline">
+        <a class="pill-link" href="./">🎮 Play the finished game</a>
+        <button class="print-button" type="button" onclick="window.print()">🖨️ Print this page</button>
+      </div>
+      <p class="kicker">The Makinka Wounder Land · Code Club</p>
+      <h1>Build the whole game in <span>14 lines.</span></h1>
+      <p class="lede">
+        Not a demo. Not a copy. The whole game — the screen, the score, the timer,
+        the jumping money bag, and Play Again — is 14 lines of code you can type yourself.
+      </p>
+      <div class="hero-badges">
+        <span>👧 Grade 3 friendly</span>
+        <span>📝 Whole game: 14 lines</span>
+        <span>⏱️ 20–40 minutes</span>
+        <span>💻 Notepad + a browser</span>
+      </div>
+      <div class="hero-buttons">
+        <a class="button gold" href="./">Play it first →</a>
+        <a class="button ghost" href="#code">See the 14 lines</a>
+      </div>
+    </header>
+
+    <div class="two-col">
+      <section class="panel">
+        <p class="eyebrow">The challenge</p>
+        <h2>Tap the money bag!</h2>
+        <p>
+          You are the whole Makinka Sky Squad: <strong>Emmanuel, Nduwa, Jemimah, and Joshua</strong>.
+          A money bag jumps around the screen. Tap it as many times as you can before
+          the 15-second timer runs out.
+        </p>
+        <p>
+          This tiny game has a real score, a real timer, random movement, and a Play Again button.
+          Everything fits in <strong>14 lines</strong>.
+        </p>
+        <div class="rule-box">
+          🎯 The rule: make one change at a time, save, refresh, and test. That is how
+          real coders learn.
+        </div>
+      </section>
+
+      <aside class="panel">
+        <p class="eyebrow">Before you type</p>
+        <h2>You need</h2>
+        <ul>
+          <li>A computer with Notepad, Notepad++, or VS Code</li>
+          <li>Chrome, Edge, Firefox, or Safari</li>
+          <li>About half an hour and a sense of adventure</li>
+        </ul>
+        <p class="small">
+          A grown-up co-pilot can help with the long first line and the punctuation.
+          The child should still choose the changes and press the keys.
+        </p>
+      </aside>
+    </div>
+
+    <section class="panel" id="code">
+      <p class="eyebrow">The whole game</p>
+      <h2>Type these 14 lines</h2>
+      <p>
+        The first line is long because the 15-line limit is strict. Keep it on one line.
+        Type it into a new file; do not use Microsoft Word.
+      </p>
+
+      <div class="code-shell">
+        <div class="code-bar">
+          <span class="dots"><i></i><i></i><i></i></span>
+          <span>HTML · your game · 14 lines</span>
+        </div>
+        <pre class="code"><span class="line">&lt;!doctype html&gt;&lt;html&gt;&lt;head&gt;&lt;meta charset="UTF-8"&gt;&lt;meta name="viewport" content="width=device-width,initial-scale=1"&gt;&lt;title&gt;Makinka Money Pop&lt;/title&gt;&lt;/head&gt;</span>
+<span class="line">&lt;body style="margin:0;min-height:100vh;text-align:center;font-family:sans-serif;background:linear-gradient(#bfe8ff,#fff3c4);color:#10243e"&gt;</span>
+<span class="line">&lt;h1 style="margin:18px 0 4px;color:#10243e"&gt;Makinka Money Pop 💰&lt;/h1&gt;</span>
+<span class="line">&lt;p style="margin:0 10px;font-weight:bold"&gt;Tap the money bag! 🦊 Emmanuel · 🐼 Nduwa · 🐰 Jemimah · 🐻 Joshua · in their SR-71 🛩️&lt;/p&gt;</span>
+<span class="line">&lt;h2 style="margin:12px"&gt;&lt;span id="s"&gt;0&lt;/span&gt; coins · &lt;span id="t"&gt;15&lt;/span&gt; seconds&lt;/h2&gt;</span>
+<span class="line">&lt;button id="b" onclick="hit()" style="position:absolute;left:50%;top:60%;transform:translate(-50%,-50%);border:0;background:none;font-size:76px;cursor:pointer;filter:drop-shadow(0 8px 6px rgba(0,0,0,.2))"&gt;💰&lt;/button&gt;</span>
+<span class="line">&lt;button onclick="location.reload()" style="position:absolute;left:50%;bottom:18px;transform:translateX(-50%);padding:10px 18px;border:0;border-radius:999px;background:#ffb703;color:#10243e;font-size:16px;font-weight:bold;box-shadow:0 4px 0 #d18a00"&gt;Play Again&lt;/button&gt;</span>
+<span class="line">&lt;script&gt;</span>
+<span class="line">let s = 0, t = 15, b = document.getElementById("b"), T;</span>
+<span class="line">function move() { b.style.left = Math.random() * 70 + 15 + "%"; b.style.top = Math.random() * 45 + 30 + "%"; }</span>
+<span class="line">function hit() { s++; document.getElementById("s").textContent = s; move(); }</span>
+<span class="line">move();</span>
+<span class="line">T = setInterval(function () { document.getElementById("t").textContent = --t; if (t === 0) { clearInterval(T); b.disabled = true; b.textContent = "🏆 " + s; document.querySelector("h2").textContent = "Time's up! You scored " + s + " coins."; } }, 1000);</span>
+<span class="line">&lt;/script&gt;&lt;/body&gt;&lt;/html&gt;</span></pre>
+      </div>
+
+      <div class="callout gold">
+        <h3>💡 Why is line 1 so long?</h3>
+        <p>
+          Line 1 does several setup jobs: it tells the browser this is an HTML page,
+          adds the phone-friendly viewport, and sets the tab title. We packed it in
+          to stay under 15 lines. That is a real coding trade-off: short code can be
+          harder to read. In a bigger game we would give each part its own line.
+        </p>
+      </div>
+
+      <h3>Save it</h3>
+      <ol class="steps">
+        <li>Open Notepad (or another plain-text editor).</li>
+        <li>Type the 14 lines exactly. Keep every quote mark, bracket, and angle bracket.</li>
+        <li>
+          Choose <strong>File → Save As</strong>. Set <strong>Save as type</strong> to
+          <strong>All files</strong>, name it <code>money-pop.html</code>, and use
+          <strong>UTF-8</strong> encoding so the emojis work.
+        </li>
+        <li>Double-click <code>money-pop.html</code> to open it in your browser.</li>
+        <li>
+          Tap the money bag. When the timer reaches zero, press <strong>Play Again</strong>.
+        </li>
+      </ol>
+
+      <div class="callout green">
+        <h3>✅ It worked if…</h3>
+        <ul>
+          <li>You see the four names and a big money bag.</li>
+          <li>Every tap makes the score go up and the bag jump somewhere new.</li>
+          <li>The timer counts down from 15 and the bag turns into a trophy with your score.</li>
+          <li>Play Again starts a fresh round.</li>
+        </ul>
+      </div>
+
+      <div class="checklist">
+        <label><input type="checkbox"> I typed all 14 lines.</label>
+        <label><input type="checkbox"> I saved the file with a <code>.html</code> name.</label>
+        <label><input type="checkbox"> I played the game and the timer ended.</label>
+      </div>
+    </section>
+
+    <section class="panel">
+      <p class="eyebrow">Code detective</p>
+      <h2>What each part does</h2>
+      <table class="line-table">
+        <thead>
+          <tr><th>Line</th><th>What it does</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>1</td><td>Sets up a web page, makes it fit a phone, and names the browser tab.</td></tr>
+          <tr><td>2</td><td>Starts the page, fills the background with sky blue, and centers everything.</td></tr>
+          <tr><td>3</td><td>Shows the big game title and the money emoji.</td></tr>
+          <tr><td>4</td><td>Gives the instruction and introduces the four crew members and their SR-71.</td></tr>
+          <tr><td>5</td><td>Shows the score and the 15-second timer. The spots are named <code>s</code> and <code>t</code>.</td></tr>
+          <tr><td>6</td><td>The big money bag button. Clicking it calls the <code>hit()</code> function.</td></tr>
+          <tr><td>7</td><td>Play Again reloads the page, which resets the score and timer.</td></tr>
+          <tr><td>8</td><td>Starts the JavaScript — the rules of the game.</td></tr>
+          <tr><td>9</td><td>Makes variables for the score <code>s</code>, the time <code>t</code>, the bag <code>b</code>, and the timer <code>T</code>.</td></tr>
+          <tr><td>10</td><td><code>move()</code> picks a new random left and top position for the bag.</td></tr>
+          <tr><td>11</td><td><code>hit()</code> adds one coin, updates the screen, and moves the bag.</td></tr>
+          <tr><td>12</td><td>Runs <code>move()</code> once at the start, so the bag is not always in the middle.</td></tr>
+          <tr><td>13</td><td>Every second, subtract one from the time. At zero, stop the timer, disable the bag, show the trophy and score, and replace the scoreboard with a “time’s up” message.</td></tr>
+          <tr><td>14</td><td>Closes the script, body, and page.</td></tr>
+        </tbody>
+      </table>
+
+      <div class="callout">
+        <h3>🧠 Coding words you just used</h3>
+        <ul>
+          <li><strong>HTML</strong> — the pieces of the page: title, text, buttons.</li>
+          <li><strong>CSS</strong> — the styles inside <code>style="…"</code>: colors, sizes, positions.</li>
+          <li><strong>Variable</strong> — a named box that holds a value, such as <code>s</code> for score.</li>
+          <li><strong>Function</strong> — a set of instructions with a name, such as <code>move()</code> and <code>hit()</code>.</li>
+          <li><strong>Event</strong> — something that happens, such as a click on the money bag.</li>
+          <li><strong>Random</strong> — a surprise number, made by <code>Math.random()</code>.</li>
+          <li><strong>Timer</strong> — code that runs repeatedly, made by <code>setInterval</code>.</li>
+          <li><strong>Condition</strong> — an <code>if</code> test, such as “is the time zero?”</li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="panel">
+      <p class="eyebrow">Your turn</p>
+      <h2>Make it yours — keep it 14 lines</h2>
+      <p>
+        You can change the game without adding lines. After every change:
+        <strong>save</strong> (<kbd>Ctrl</kbd> + <kbd>S</kbd>) and
+        <strong>refresh</strong> the browser (<kbd>Ctrl</kbd> + <kbd>R</kbd>).
+      </p>
+      <ol class="steps">
+        <li>
+          <strong>Change the crew.</strong> On line 4, swap the emojis or names for
+          your own favourites.
+        </li>
+        <li>
+          <strong>Make the round longer.</strong> If you want 30 seconds, change the
+          <code>15</code> on line 5 <em>and</em> the <code>15</code> on line 9.
+        </li>
+        <li>
+          <strong>Make the bag bigger.</strong> On line 6, change
+          <code>font-size:76px</code> to <code>100px</code>.
+        </li>
+        <li>
+          <strong>Change the sky.</strong> On line 2, replace
+          <code>#bfe8ff</code> with another color name such as
+          <code>#ffe2a8</code>, <code>#d9c7ff</code>, or <code>lightpink</code>.
+        </li>
+        <li>
+          <strong>Change the prize.</strong> On line 6, replace 💰 with another emoji:
+          💎, ⭐, 🍕, or your own.
+        </li>
+      </ol>
+
+      <div class="callout coral">
+        <h3>🐛 If it breaks</h3>
+        <ul>
+          <li><strong>Blank page:</strong> check the quotes, brackets, and angle brackets on the line you changed.</li>
+          <li><strong>Score does not change:</strong> check that line 5 says <code>id="s"</code> and line 11 says <code>getElementById("s")</code>.</li>
+          <li><strong>Bag does not move:</strong> check that line 11 calls <code>move()</code> and that line 12 is there.</li>
+          <li><strong>Timer does not stop:</strong> check the <code>t === 0</code> and <code>clearInterval(T)</code> parts on line 13.</li>
+          <li>Undo with <kbd>Ctrl</kbd> + <kbd>Z</kbd> and compare with the 14 lines above.</li>
+        </ul>
+      </div>
+
+      <div class="final-card">
+        <p class="big">🏆</p>
+        <h2>You built the whole game.</h2>
+        <p>
+          Fourteen lines. A real score, a timer, random movement, and a Play Again button.
+          You are a game maker.
+        </p>
+        <a class="button gold" href="./">Play your game →</a>
+      </div>
+    </section>
+
+    <section class="panel">
+      <p class="eyebrow">For the grown-up co-pilot</p>
+      <h2>How to run the 20-minute build</h2>
+      <p>
+        Let the child type the code and make the choices. Sit beside them and read
+        the code aloud together. The long first line may need help, but most of the
+        learning is in the small lines that follow.
+      </p>
+      <ul>
+        <li><strong>Warm-up (5 min):</strong> play the finished game and ask what the score and timer do.</li>
+        <li><strong>Build (10–15 min):</strong> type the 14 lines, saving as <code>money-pop.html</code>.</li>
+        <li><strong>Test (5 min):</strong> play, find a bug if one appears, and fix it together.</li>
+        <li><strong>Remix (5–10 min):</strong> choose one of the “Your turn” changes and test it.</li>
+      </ul>
+      <p>
+        This game intentionally leaves out plane art, moving enemies, collisions, and
+        sound. Those are good next projects, but each one adds many lines. The tiny
+        version proves the core ideas: an event, a variable, a function, randomness,
+        a timer, and a condition.
+      </p>
+      <div class="archive-note">
+        Looking for the larger SR-71 version with the moving plane and the Code Club manual?
+        It is archived in <a href="full-version/">the full-version folder</a>. It is not part
+        of the 14-line challenge.
+      </div>
+    </section>
+
+    <p class="footer">
+      Built for the Makinka crew. Change one thing. Test it. Make it yours.<br>
+      <a href="./">Play the 14-line game</a> · <a href="full-version/">Full version archive</a>
+    </p>
+  </div>
+</body>
+</html>

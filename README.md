@@ -1,73 +1,51 @@
-# The Makinka Wounder Land: Sky Squad — Coin Cannon
+# Makinka Money Pop
 
-A tiny browser game starring **Emmanuel, Nduwa, Jemimah, and Joshua** in their SR-71 Blackbird.
-
-Tap the flying money bags. The crew fires money at them, and you collect coins. Save 10 coins before the 30-second clock runs out.
-
-No installs, no internet, and no accounts are needed.
+A complete browser game — **14 lines of code**, built for the four Makinka friends:
+**Emmanuel, Nduwa, Jemimah, and Joshua**.
 
 **Play online:** [nduwamakinka.github.io/makinka-sky-squad](https://nduwamakinka.github.io/makinka-sky-squad/)  
-**Code Club manual:** [nduwamakinka.github.io/makinka-sky-squad/learn.html](https://nduwamakinka.github.io/makinka-sky-squad/learn.html)
+**Build it yourself:** [nduwamakinka.github.io/makinka-sky-squad/build-it-yourself.html](https://nduwamakinka.github.io/makinka-sky-squad/build-it-yourself.html)
 
-![Makinka Sky Squad start screen](screenshot.png)
+![Makinka Money Pop](screenshot.png)
 
-## Play
+The money bag jumps to a random spot. Tap it to score a coin before the 15-second timer runs out. Your score and the time are live. At zero, the bag becomes a trophy and Play Again starts a fresh round.
 
-Double-click **`index.html`**.
+Everything — the page, the styles, the score, the timer, the random movement, and the Play Again button — fits in **14 lines**. No frameworks, no libraries, no images, and no internet connection are needed after the files are downloaded.
 
-Works with a mouse, trackpad, or touchscreen. Use Chrome, Edge, or Firefox for the best experience.
+## Build the whole game
 
-## Learn to code
+Open **`build-it-yourself.html`** (also linked above). It contains:
 
-Open **`learn.html`** for the four-mission Code Club Flight Manual. It is written for a Grade 3 pilot working with a grown-up co-pilot.
+- The exact 14 lines of code to type
+- Step-by-step saving and testing instructions
+- A plain-English explanation of every line
+- Five “make it yours” changes that keep the game at 14 lines
+- A bug-hunting checklist
+- A short grown-up co-pilot guide
 
-The club is a guided remix of a real, working game:
+The children should type the game into a plain-text editor — **Notepad, Notepad++, or VS Code**, not Microsoft Word. Save the file as `money-pop.html` with UTF-8 encoding, then double-click it to play.
 
-1. **Make the crew yours** — edit HTML/JavaScript data.
-2. **Tune the mission** — change variables and test game balance.
-3. **Add a golden money bag** — use HTML attributes and JavaScript math.
-4. **Remix and debug** — change the game, then find and fix a deliberate bug.
+## What the children learn
 
-Use **`my-game.html`** as the child's editing copy. **`index.html`** is the original answer key, so it is always safe to compare against or restore from.
+- **HTML** — the page pieces: headings, buttons, and text
+- **CSS** — colors and layout inside `style="…"`
+- **JavaScript** — variables, functions, events, random numbers, timers, conditions, and updating the screen
+- **Debugging** — save, refresh, compare, undo, and fix one thing at a time
 
-> Important: edit code in Notepad, Notepad++, VS Code, or another plain-text editor — not Microsoft Word.
-
-After each change: **save** (`Ctrl+S`), then **refresh** the browser (`Ctrl+R` or `F5`).
+The 15-line limit deliberately removes plane art, moving enemies, collisions, and sound. Those are excellent next projects, but they need many more lines. This tiny game proves the core ideas first.
 
 ## Files
 
 | File | Purpose |
 | --- | --- |
-| `index.html` | The finished game. Double-click to play. |
-| `my-game.html` | A working copy for Code Club edits. |
-| `learn.html` | The illustrated, printable Code Club manual, including the certificate and grown-up notes. |
+| `index.html` | The whole game — 14 lines. |
+| `build-it-yourself.html` | The illustrated build guide for the children. |
 | `screenshot.png` | Preview image for this README. |
-| `README.md` | This quick-start guide. |
+| `full-version/` | The earlier, larger SR-71 version and its four-mission Code Club manual. Archived for grown-ups; **not** part of the 14-line challenge. |
+| `.gitignore` | Keeps temporary system files out of the repository. |
 
-## For the grown-up co-pilot
+## A note for the grown-up co-pilot
 
-- Four sessions of about 20–30 minutes is a comfortable pace.
-- The goal is not to type every line from scratch. It is to read real code, change data, trace a click, use variables, and debug. That is how real game makers learn a codebase.
-- Let the child make choices and press the keys. Ask “What do you think will happen?” before each test.
-- The finished game is the answer key. If an edit breaks something, undo with `Ctrl+Z` or compare with `index.html`.
-- No personal data is collected and nothing is saved online.
+The first line is long because the limit is strict. You may need to help with the punctuation on that line. Let the child type the rest, choose the changes, and test the result. The finished game is always available at the live link; the source on this page is the answer key.
 
-## Quick things to change
-
-While playing, the game reads its crew and settings from the top of the script in `index.html` / `my-game.html`:
-
-- `CREW` — names, roles, emoji, and flight colors.
-- `GAME_SECONDS` — how long a round lasts.
-- `BAGS_TO_WIN` — how many coins are needed to win.
-- `CHEERS` — the lines the crew says after a hit.
-
-Look for the big `SECTION` comments in the code. The manual explains each one.
-
-## Troubleshooting
-
-- **Nothing happens after an edit** — make sure you saved the file and refreshed the browser.
-- **The page is blank** — a quote, comma, or bracket is probably missing. Undo your last change and compare with `index.html`.
-- **The game is too easy or too hard** — change `GAME_SECONDS` or `BAGS_TO_WIN`, or adjust the golden bag's points in the HTML.
-- **The golden bag is not gold** — its class must be exactly `bag golden`, and its bonus must be `data-points="3"`.
-
-Have a wonderful flight. 🚀
+The goal is not a perfect typing performance. It is a child saying: **“I made that game, and I know what those lines do.”**
